@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  NotificationSlackLambda
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  NotificationSlackSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: NotificationSlackSNSTopic
+      TopicName: NotificationSlackSNSTopic
+
+  NotificationSlackLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambda/
+      Handler: dist/index.handler
+      Runtime: nodejs12.x
+      Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: slack-webhook-url
+      Events:
+        NotificationSlackSNSSubscription:
+          Type: SNS
+          Properties:
+            Topic: !Ref NotificationSlackSNSTopic
+
+Outputs:
+  NotificationSlackSNSTopic:
+    Value: !Ref NotificationSlackSNSTopic
+  NotificationSlackLambda:
+    Value: !GetAtt NotificationSlackLambda.Arn
