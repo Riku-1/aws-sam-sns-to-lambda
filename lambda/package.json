@@ -17,6 +17,6 @@
     "@slack/webhook": "^5.0.3",
     "@types/aws-lambda": "^8.10.57",
     "@types/aws-sdk": "^2.7.0",
-    "aws-sdk": "^2.704.0"
+    "aws-sdk": "^2.814.0"
   }
 }
